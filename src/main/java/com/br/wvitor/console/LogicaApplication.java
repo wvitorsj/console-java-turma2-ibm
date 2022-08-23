@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class LogicaApplication {
@@ -15,22 +17,21 @@ public class LogicaApplication {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		int i;
+
 		BufferedReader reader = new BufferedReader(
 				new InputStreamReader(System.in));
 		System.out.println("=====[Olá Turma 2 JAVA IBM]=====");
-		String[] nome = new String[5];
 		System.out.println("Informe 5 Nomes");
-		for (i = 0; i < 5; i++) {
+		List<String> nomes = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
 			System.out.print("Informe o " + (i + 1) + "º " + "nome: ");
-			nome[i] = reader.readLine();
+			String nome = reader.readLine();
+			nomes.add(nome);
 		}
-
-		System.out.println("");
 		System.out.println("Os nomes digitados foram:");
-		System.out.println(Arrays.toString(nome));
+		for (int i = 0; i < nomes.size(); i++) {
+			System.out.println("O Nome " + (i + 1) + " digitados foi: " + nomes.get(i));
+		}
 		// SpringApplication.run(LogicaApplication.class, args);
-
 	}
-
 }
