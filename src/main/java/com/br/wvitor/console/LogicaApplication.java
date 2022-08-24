@@ -1,6 +1,6 @@
 package com.br.wvitor.console;
 
-import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.br.wvitor.console.models.Aluno;
@@ -9,13 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class LogicaApplication {
 
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	private static List<Aluno> alunos = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		while (true) {
@@ -65,12 +63,12 @@ public class LogicaApplication {
 	}
 
 	private static void mostrarAlunos() throws InterruptedException {
-		if (alunos.size() == 0) {
+		if (Aluno.all().size() == 0) {
 			mensagem("Nenhum Aluno cadastrado!");
 			return;
 		}
 		System.out.println("========= [Relatório de Alunos] =========");
-		for (Aluno aluno : alunos) {
+		for (Aluno aluno : Aluno.all()) {
 			System.out.println("Nome: " + aluno.getNome());
 			String notas = " ";
 			for (float nota : aluno.getNotas()) {
@@ -86,12 +84,12 @@ public class LogicaApplication {
 	}
 
 	private static void cadastroAluno() throws IOException, NumberFormatException, InterruptedException {
-		System.out.println("Informe o Nome do Aluno(a)");
 		var aluno = new Aluno();
+		System.out.println("Informe o Nome do Aluno(a)");
 		aluno.setNome(reader.readLine());
 
 		capturaNotasAluno(aluno);
-		alunos.add(aluno);
+		aluno.salvar();
 		mensagem("Aluno cadastrado com sucesso!");
 	}
 
