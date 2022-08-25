@@ -23,3 +23,10 @@ Notas 7 ou acima = Aprovado
 
 Mostre uma opção para vermos o relatório dos alunos cadastrados
 ```
+
+##Persistencia
+
+```shell
+Gerado um arquivo json para armazenar os dados inseridos na aplicação.
+Também foram realizadas modificações nas classes Aluno e LogicaApplication
+```
