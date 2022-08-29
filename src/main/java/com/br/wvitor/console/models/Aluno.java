@@ -1,46 +1,47 @@
 package com.br.wvitor.console.models;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Scanner;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.br.wvitor.console.interfaces.IEntidade;
+import com.br.wvitor.console.interfaces.IPersistencia;
+import com.br.wvitor.console.service.PersistenciaJson;
 
-public class Aluno {
-	private static List<Aluno> alunos = new ArrayList<>();
-
+public class Aluno implements IEntidade {
     private String nome;
+
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     private List<Float> notas;
+
     public List<Float> getNotas() {
         return notas;
     }
+
     public void setNotas(List<Float> notas) {
         this.notas = notas;
     }
 
-    public String situacao(){
+    public String situacao() {
         var media = this.media();
-        if(media < 5) return "Reprovado";
-        else if(media >=5 && media < 7) return "Recuperação";
-        else return "Aprovado";
+        if (media < 5)
+            return "Reprovado";
+        else if (media >= 5 && media < 7)
+            return "Recuperação";
+        else
+            return "Aprovado";
     }
 
-    public float media(){
+    public float media() {
         float mediaCalculada = (float) 0.0;
 
-        if(this.notas != null){
+        if (this.notas != null) {
             for (Float nota : this.notas) {
                 mediaCalculada += nota;
             }
@@ -50,43 +51,18 @@ public class Aluno {
 
         return mediaCalculada;
     }
-    public void salvar(){
-		Aluno.alunos.add(this);
-        try {
-            FileWriter myWriter = new FileWriter("alunos.json");
-            String alunosJson = new Gson().toJson(Aluno.alunos);
-            myWriter.write(alunosJson);
-            myWriter.close();
-        } catch (IOException e) {
-        }
+
+    public void salvar(IPersistencia persistencia) throws InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        persistencia.salvar(this);
     }
 
-    public static List<Aluno> all(){
-        if(Aluno.alunos == null || Aluno.alunos.size() == 0){
-          try {
-              File myObj = new File("alunos.json");
-              Scanner myReader = new Scanner(myObj);
-              String alunosJson = "";
-              while (myReader.hasNextLine()) {
-                  alunosJson += myReader.nextLine();
-              }
-              myReader.close();
-
-              Aluno.alunos = new Gson().fromJson(alunosJson,  new TypeToken<List<Aluno>>(){}.getType());
-          } catch (FileNotFoundException e) {
-          }
-        }
-
-        return Aluno.alunos;
+    public static List<IEntidade> all() {
+        return new PersistenciaJson(new Aluno().getClass()).Todos();
     }
 
-  @Override    
-  public String toString() {    
-    return this.nome;    
-  }  
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }
-
-
-
-  
-
