@@ -32,7 +32,7 @@ public class LogicaApplication {
 		notas.add(nota);
 		a.setNotas(notas);
 		// a.salvar(new PersistenciaCSV(a.getClass()));
-		a.salvar(new PersistenciaJson(a.getClass()));
+		// a.salvar(new PersistenciaJson(a.getClass()));
 		new PersistenciaCSV(a.getClass()).salvar(a);
 		new PersistenciaJson(a.getClass()).salvar(a);
 
